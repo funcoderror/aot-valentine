@@ -17,16 +17,18 @@
             font-family: 'Impact', sans-serif;
             height: 100vh; width: 100%;
             color: white; user-select: none;
+            touch-action: manipulation;
         }
 
-        /* --- COMMON UTILS --- */
+        /* COMMON UTILITIES  */
         .hidden { display: none !important; }
         .fade-in { opacity: 1 !important; }
 
-        /* --- STAGE 1: THE TRIGGER --- */
+        /* STAGE 1: THE TRIGGER */
         .trigger-container {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             text-align: center; cursor: pointer; z-index: 100; transition: opacity 0.5s;
+            width: 90%;
         }
         .wound {
             font-size: 5rem; animation: pulse 1s infinite;
@@ -35,7 +37,7 @@
         .instruction { color: #888; margin-top: 20px; font-size: 1.2rem; letter-spacing: 1px; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 0.8; } }
 
-        /* --- FX: LIGHTNING & SHAKE --- */
+        /* LIGHTNING & SHAKE */
         .flash-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--titan-gold); opacity: 0; pointer-events: none; z-index: 90;
@@ -50,17 +52,15 @@
             50% { transform: translate(25px, -25px); } 75% { transform: translate(-25px, -25px); } 100% { transform: translate(0,0); }
         }
 
-        /* --- STAGE 2: TITAN SCENE (UPDATED DYNAMIC) --- */
+        /* STAGE 2: TITAN SCENE */
         #titan-scene {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* Dark initially */
             background: #000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 50; opacity: 0; transition: opacity 1s;
             overflow: hidden;
         }
         
-        /* The Intense Breathing Background */
         #titan-scene.active-bg {
             animation: intenseBreathe 3s infinite alternate ease-in-out;
         }
@@ -69,7 +69,6 @@
             100% { background: radial-gradient(circle at center, #5a0000 10%, #1a0000 80%); }
         }
 
-        /* Ember Particles (Added via JS) */
         .ember {
             position: absolute; bottom: -10px;
             width: 4px; height: 4px; background: #ffaa00;
@@ -83,7 +82,6 @@
             100% { transform: translateY(-80vh) scale(0); opacity: 0; }
         }
 
-        /* Steam Effect */
         .steam {
             position: absolute; bottom: 0; left: 50%;
             width: 200px; height: 200px;
@@ -98,34 +96,41 @@
         }
 
         .titan-silhouette {
-            width: 350px; height: 450px; background: #0e0e0e;
+            width: 80vw;
+            max-width: 350px; 
+            height: 50vh;
+            background: #0e0e0e;
             clip-path: polygon(20% 100%, 80% 100%, 95% 45%, 75% 25%, 50% 5%, 25% 25%, 5% 45%);
             position: relative; z-index: 60;
-            filter: drop-shadow(0 0 30px rgba(255, 69, 0, 0.4)); /* Red glow behind titan */
+            filter: drop-shadow(0 0 30px rgba(255, 69, 0, 0.4));
         }
         .titan-silhouette::after { 
-            content: ''; position: absolute; top: 100px; left: 90px; width: 25px; height: 12px; background: #00ffaa;
-            box-shadow: 145px 0 0 #00ffaa, 0 0 30px #00ffaa;
+            content: ''; position: absolute; top: 100px; left: 25%; width: 25px; height: 12px; background: #00ffaa;
+            box-shadow: 40vw 0 0 #00ffaa, 0 0 30px #00ffaa;
+        }
+        @media (max-width: 600px) {
+            .titan-silhouette::after { box-shadow: 35vw 0 0 #00ffaa, 0 0 30px #00ffaa; }
         }
 
         .sign {
-            margin-top: -180px; z-index: 65; background: #fff; color: #000;
-            padding: 25px 40px; font-size: 2rem; transform: rotate(-3deg) scale(0.8);
+            margin-top: -100px; z-index: 65; background: #fff; color: #000;
+            padding: 15px 25px; font-size: 1.5rem; transform: rotate(-3deg) scale(0.8);
             border: 4px solid var(--titan-red); box-shadow: 0 0 40px rgba(255, 238, 187, 0.4);
             opacity: 0; transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 80%; text-align: center;
         }
         .sign.popped { opacity: 1; transform: rotate(-3deg) scale(1); }
 
-        .btn-group { margin-top: 60px; display: flex; gap: 30px; z-index: 70; opacity: 0; transition: opacity 1s 0.5s; }
+        .btn-group { margin-top: 40px; display: flex; gap: 20px; z-index: 70; opacity: 0; transition: opacity 1s 0.5s; flex-wrap: wrap; justify-content: center; }
         .aot-btn {
-            padding: 15px 50px; font-size: 1.5rem; background: transparent;
+            padding: 12px 35px; font-size: 1.2rem; background: transparent;
             color: var(--titan-gold); border: 3px solid var(--titan-red);
             cursor: pointer; transition: 0.3s; font-family: 'Impact', sans-serif; letter-spacing: 2px;
         }
         #yesBtn:hover { background: var(--titan-red); box-shadow: 0 0 25px var(--titan-red); }
         #noBtn { position: relative; background: #1a1a1a; border-color: #444; color: #888; }
 
-        /* --- STAGE 3: THE PATHS --- */
+        /* STAGE 3: THE PATHS */
         #paths-dimension {
             display: none;
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -140,7 +145,8 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 600px; height: 400px;
+            width: 90%;
+            max-width: 600px;
             pointer-events: none;
             filter: drop-shadow(0 0 10px var(--titan-red));
             z-index: 210;
@@ -152,13 +158,26 @@
             transition: stroke-dashoffset 4s ease-in-out;
         }
 
+        /* UPDATED FINAL TEXT STYLES */
         .final-text {
-            position: absolute; top: 40%; width: 100%; text-align: center;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
             opacity: 0; transition: opacity 2s; z-index: 220;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); font-family: 'Times New Roman', serif;
+            font-family: 'Times New Roman', serif;
         }
-        .final-text h2 { font-size: 3rem; margin: 0; color: white; }
-        .final-text p { font-size: 1.5rem; color: var(--titan-gold); margin-top: 15px; font-style: italic;}
+        .final-text h2 { 
+            font-size: 2rem; margin: 0; color: white; padding: 0 10px; 
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px var(--titan-red); 
+        }
+        .final-text p { 
+            font-size: 1.2rem; color: var(--titan-gold); margin-top: 15px; font-style: italic;
+            text-shadow: 0 0 10px rgba(255, 238, 187, 0.6);
+        }
 
     </style>
 </head>
@@ -202,7 +221,6 @@
     </div>
 
     <script>
-        // Elements
         const trigger = document.getElementById('trigger');
         const body = document.body;
         const flash = document.getElementById('flash');
@@ -216,91 +234,72 @@
         const scarfPath = document.getElementById('scarfPath');
         const finalText = document.getElementById('finalText');
 
-        // --- TRANSITION 1: TRANSFORMATION ---
         trigger.addEventListener('click', () => {
             trigger.style.pointerEvents = 'none';
             body.classList.add('shake-screen');
-            
             flash.animate([{ opacity: 0 }, { opacity: 1, background: '#fff' }, { opacity: 0 }], { duration: 1500, easing: 'ease-out' });
             bolt.animate([{ opacity: 0 }, { opacity: 1 }, { opacity: 0, offset: 0.3 }, { opacity: 1, offset: 0.4 }, { opacity: 0 }], { duration: 1200, easing: 'linear' });
-
             trigger.style.opacity = '0';
-
             setTimeout(() => {
                 trigger.classList.add('hidden');
                 titanScene.classList.remove('hidden');
-                
-                // Start Stage 2 Effects
                 setTimeout(() => {
                     titanScene.classList.add('fade-in', 'active-bg');
-                    spawnEmbers(); // START THE FIRE PARTICLES
+                    spawnEmbers();
                 }, 50);
             }, 400);
-
             setTimeout(() => sign.classList.add('popped'), 1200);
             setTimeout(() => btnGroup.classList.add('fade-in'), 1800);
         });
 
-        // --- EMBER GENERATOR FOR STAGE 2 ---
         function spawnEmbers() {
-            // Only spawn if Titan scene is visible
             if(titanScene.classList.contains('hidden')) return;
-
             const ember = document.createElement('div');
             ember.classList.add('ember');
             ember.style.left = Math.random() * 100 + '%';
-            ember.style.animationDuration = (Math.random() * 2 + 2) + 's'; // 2-4s duration
+            ember.style.animationDuration = (Math.random() * 2 + 2) + 's';
             ember.style.opacity = Math.random();
             titanScene.appendChild(ember);
-
-            // Clean up
             setTimeout(() => ember.remove(), 4000);
-
-            // Keep spawning while scene is active
             if(!titanScene.classList.contains('hidden')) {
                 setTimeout(spawnEmbers, 100);
             }
         }
 
-        // --- RUNAWAY NO BUTTON ---
-        noBtn.addEventListener('mouseenter', () => {
+        const moveButton = () => {
             const rect = noBtn.getBoundingClientRect();
-            const maxX = window.innerWidth - rect.width - 50;
-            const maxY = window.innerHeight - rect.height - 50;
+            const maxX = window.innerWidth - rect.width - 20;
+            const maxY = window.innerHeight - rect.height - 20;
+            
             noBtn.style.position = 'fixed';
-            noBtn.style.left = Math.max(20, Math.random() * maxX) + 'px';
-            noBtn.style.top = Math.max(20, Math.random() * maxY) + 'px';
+            noBtn.style.left = Math.max(10, Math.random() * maxX) + 'px';
+            noBtn.style.top = Math.max(10, Math.random() * maxY) + 'px';
+        };
+
+        noBtn.addEventListener('mouseenter', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
         });
 
-        // --- TRANSITION 2: PATHS / SCARF ---
         yesBtn.addEventListener('click', () => {
             noBtn.style.display = 'none'; 
-            titanScene.style.opacity = '0'; // Embers hidden by CSS
-            
+            titanScene.style.opacity = '0';
             setTimeout(() => {
-                titanScene.classList.add('hidden'); // Stops ember loop logic
+                titanScene.classList.add('hidden');
                 pathsDim.style.display = 'block';
-                
                 startParticles();
-
-                // 2. Animate Scarf
                 setTimeout(() => { scarfPath.style.strokeDashoffset = '0'; }, 1000);
-
-                // 3. Show Text
                 setTimeout(() => { finalText.style.opacity = '1'; }, 2500);
-
             }, 1000); 
         });
 
-        // --- 3. PARTICLE SYSTEM (THE PATHS STARS) ---
         function startParticles() {
             const canvas = document.getElementById('particle-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-
             const particles = [];
-            
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
@@ -320,9 +319,7 @@
                     ctx.fill();
                 }
             }
-
             for (let i = 0; i < 150; i++) particles.push(new Particle());
-
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 particles.forEach(p => { p.update(); p.draw(); });

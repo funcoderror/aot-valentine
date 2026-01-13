@@ -13,7 +13,7 @@ const finalText = document.getElementById('finalText');
 const specialBtn = document.getElementById('specialBtn');
 const scene4 = document.getElementById('scene-4');
 
-// --- STAGE 1: LIGHTNING ---
+//STAGE 1: LIGHTNING 
 trigger.addEventListener('click', () => {
     trigger.style.pointerEvents = 'none';
     body.classList.add('shake-screen');
@@ -32,7 +32,7 @@ trigger.addEventListener('click', () => {
     setTimeout(() => btnGroup.classList.add('fade-in'), 1800);
 });
 
-// --- STAGE 2: TITAN SCENE ---
+//STAGE 2: TITAN SCENE
 function spawnEmbers() {
     if(titanScene.classList.contains('hidden')) return;
     const ember = document.createElement('div');
@@ -58,7 +58,7 @@ const moveButton = () => {
 noBtn.addEventListener('mouseenter', moveButton);
 noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
 
-// --- STAGE 3: PATHS ---
+//STAGE 3: PATHS
 yesBtn.addEventListener('click', () => {
     noBtn.style.display = 'none'; 
     titanScene.style.opacity = '0';
@@ -69,7 +69,7 @@ yesBtn.addEventListener('click', () => {
         setTimeout(() => { scarfPath.style.strokeDashoffset = '0'; }, 1000);
         setTimeout(() => { finalText.style.opacity = '1'; }, 2500);
         
-        // SHOW NEW CRYSTAL BUTTON AFTER TEXT
+        //CRYSTAL BUTTON 
         setTimeout(() => {
             specialBtn.style.opacity = '1';
             specialBtn.style.pointerEvents = 'auto';
@@ -111,7 +111,7 @@ function startParticles() {
     animate();
 }
 
-// --- STAGE 4: THE FINALE ---
+//STAGE 4: FINAL PAGE
 specialBtn.addEventListener('click', () => {
     pathsDim.style.opacity = '0';
     setTimeout(() => {
@@ -136,4 +136,5 @@ function startFeathers() {
         if(scene4.style.display === 'flex') setTimeout(createFeather, 200);
     };
     createFeather();
+
 }

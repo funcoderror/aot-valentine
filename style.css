@@ -1,0 +1,199 @@
+:root {
+    --titan-red: #c91a1a;
+    --titan-gold: #ffeebb;
+    --bg-dark: #0a0a0a;
+    --path-blue: #1e2a4a;
+}
+
+body {
+    margin: 0; background: var(--bg-dark); overflow: hidden;
+    font-family: 'Impact', sans-serif;
+    height: 100vh; width: 100%;
+    color: white; user-select: none;
+    touch-action: manipulation;
+}
+
+.hidden { display: none !important; }
+.fade-in { opacity: 1 !important; }
+
+/* --- STAGE 1 --- */
+.trigger-container {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    text-align: center; cursor: pointer; z-index: 100; transition: opacity 0.5s;
+    width: 90%;
+}
+.wound {
+    font-size: 5rem; animation: pulse 1s infinite;
+    filter: drop-shadow(0 0 15px var(--titan-red));
+}
+.instruction { color: #888; margin-top: 20px; font-size: 1.2rem; letter-spacing: 1px; }
+@keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 0.8; } }
+
+/* --- FX --- */
+.flash-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--titan-gold); opacity: 0; pointer-events: none; z-index: 90;
+}
+.bolt-svg {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 100%; z-index: 80; opacity: 0; pointer-events: none;
+}
+.shake-screen { animation: violentShake 0.5s ease-in-out; }
+@keyframes violentShake {
+    0% { transform: translate(0,0); } 25% { transform: translate(-25px, 25px); }
+    50% { transform: translate(25px, -25px); } 75% { transform: translate(-25px, -25px); } 100% { transform: translate(0,0); }
+}
+
+/* --- STAGE 2 --- */
+#titan-scene {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 50; opacity: 0; transition: opacity 1s;
+    overflow: hidden;
+}
+
+#titan-scene.active-bg {
+    animation: intenseBreathe 3s infinite alternate ease-in-out;
+}
+@keyframes intenseBreathe {
+    0% { background: radial-gradient(circle at center, #3a0000 0%, #000 70%); }
+    100% { background: radial-gradient(circle at center, #5a0000 10%, #1a0000 80%); }
+}
+
+.ember {
+    position: absolute; bottom: -10px;
+    width: 4px; height: 4px; background: #ffaa00;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ff4500;
+    animation: riseUp linear forwards;
+    pointer-events: none; z-index: 55;
+}
+@keyframes riseUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-80vh) scale(0); opacity: 0; }
+}
+
+.steam {
+    position: absolute; bottom: 0; left: 50%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    filter: blur(20px);
+    animation: steamFloat 4s infinite linear;
+    pointer-events: none; z-index: 55; opacity: 0;
+}
+@keyframes steamFloat {
+    0% { transform: translate(-50%, 0) scale(0.8); opacity: 0.5; }
+    100% { transform: translate(-50%, -200px) scale(1.5); opacity: 0; }
+}
+
+.titan-silhouette {
+    width: 80vw; max-width: 350px; height: 50vh;
+    background: #0e0e0e;
+    clip-path: polygon(20% 100%, 80% 100%, 95% 45%, 75% 25%, 50% 5%, 25% 25%, 5% 45%);
+    position: relative; z-index: 60;
+    filter: drop-shadow(0 0 30px rgba(255, 69, 0, 0.4));
+}
+.titan-silhouette::after { 
+    content: ''; position: absolute; top: 100px; left: 25%; width: 25px; height: 12px; background: #00ffaa;
+    box-shadow: 40vw 0 0 #00ffaa, 0 0 30px #00ffaa;
+}
+@media (max-width: 600px) { .titan-silhouette::after { box-shadow: 35vw 0 0 #00ffaa, 0 0 30px #00ffaa; } }
+
+.sign {
+    margin-top: -100px; z-index: 65; background: #fff; color: #000;
+    padding: 15px 25px; font-size: 1.5rem; transform: rotate(-3deg) scale(0.8);
+    border: 4px solid var(--titan-red); box-shadow: 0 0 40px rgba(255, 238, 187, 0.4);
+    opacity: 0; transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 80%; text-align: center;
+}
+.sign.popped { opacity: 1; transform: rotate(-3deg) scale(1); }
+
+.btn-group { margin-top: 40px; display: flex; gap: 20px; z-index: 70; opacity: 0; transition: opacity 1s 0.5s; flex-wrap: wrap; justify-content: center; }
+.aot-btn {
+    padding: 12px 35px; font-size: 1.2rem; background: transparent;
+    color: var(--titan-gold); border: 3px solid var(--titan-red);
+    cursor: pointer; transition: 0.3s; font-family: 'Impact', sans-serif; letter-spacing: 2px;
+}
+#yesBtn:hover { background: var(--titan-red); box-shadow: 0 0 25px var(--titan-red); }
+#noBtn { position: relative; background: #1a1a1a; border-color: #444; color: #888; }
+
+/* --- STAGE 3 --- */
+#paths-dimension {
+    display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at bottom, #1b2735 0%, #090a0f 100%);
+    overflow: hidden; z-index: 200;
+}
+#particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.scarf-svg-container {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 90%; max-width: 600px; pointer-events: none;
+    filter: drop-shadow(0 0 10px var(--titan-red)); z-index: 210;
+}
+.scarf-path {
+    fill: none; stroke: var(--titan-red); stroke-width: 8; stroke-linecap: round;
+    stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 4s ease-in-out;
+}
+.final-text {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; opacity: 0; transition: opacity 2s; z-index: 220;
+    font-family: 'Times New Roman', serif;
+}
+.final-text h2 { 
+    font-size: 2rem; margin: 0; color: white; padding: 0 10px; 
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px var(--titan-red); 
+}
+.final-text p { 
+    font-size: 1.2rem; color: var(--titan-gold); margin-top: 15px; font-style: italic;
+    text-shadow: 0 0 10px rgba(255, 238, 187, 0.6); 
+}
+
+#specialBtn {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    width: 50px; height: 50px; line-height: 50px; text-align: center;
+    border-radius: 50%; font-size: 1.5rem;
+    background: linear-gradient(45deg, var(--titan-red), #4a0000);
+    color: var(--titan-gold); cursor: pointer; z-index: 250;
+    box-shadow: 0 0 20px var(--titan-red), inset 0 0 10px var(--titan-gold);
+    transition: all 0.5s; opacity: 0; pointer-events: none;
+    animation: crystalPulse 2s infinite;
+}
+#specialBtn:hover { transform: translateX(-50%) scale(1.1); box-shadow: 0 0 40px var(--titan-red), inset 0 0 20px var(--titan-gold); }
+@keyframes crystalPulse { 0% { opacity: 0.7; } 50% { opacity: 1; box-shadow: 0 0 30px var(--titan-red); } 100% { opacity: 0.7; } }
+
+/* --- STAGE 4 --- */
+#scene-4 {
+    display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, #000000, #1a1a2e);
+    z-index: 300; opacity: 0; transition: opacity 2s;
+    flex-direction: column; justify-content: center; align-items: center;
+    box-shadow: inset 0 0 50px var(--titan-red), inset 0 0 100px #000;
+}
+
+.feather {
+    position: absolute; top: -50px; background: white;
+    width: 20px; height: 40px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0.7; filter: blur(1px); pointer-events: none; z-index: 305;
+    animation: fall linear infinite;
+}
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg) translateX(0); }
+    50% { transform: translateY(50vh) rotate(180deg) translateX(50px); }
+    100% { transform: translateY(110vh) rotate(360deg) translateX(0); }
+}
+
+.gif-container {
+    width: 80%; max-width: 400px; height: auto;
+    border: 3px solid var(--titan-gold);
+    box-shadow: 0 0 20px var(--titan-red), 0 0 40px var(--titan-gold);
+    margin-bottom: 30px; z-index: 310;
+}
+.gif-container img { width: 100%; height: auto; display: block; }
+
+.quote-4 {
+    font-family: 'Times New Roman', serif; color: white; text-align: center;
+    width: 90%; z-index: 310;
+}
+.quote-4 h3 { font-size: 1.5rem; margin-bottom: 10px; font-weight: normal; font-style: italic; text-shadow: 0 0 10px var(--titan-red); }
+.quote-4 p { color: #ccc; font-size: 1rem; }
